@@ -1,2 +1,6 @@
 news:
   url: https://news.ycombinator.com/
+
+spring:
+  jpa:
+    show-sql: true

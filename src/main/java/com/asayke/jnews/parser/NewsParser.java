@@ -24,30 +24,26 @@ public class NewsParser implements Parser {
     public void parse() {
         String url = newsProperties.getUrl();
 
-//        try {
-//            Document doc = Jsoup.connect(url)
-//                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 OPR/100.0.0.0")
-//                    .timeout(500)
-//                    .referrer("https://google.com")
-//                    .get();
+        try {
+            Document doc = Jsoup.connect(url)
+                    .userAgent("Mozilla")
+                    .timeout(5000)
+                    .referrer("https://google.com")
+                    .get();
 
-//            Elements news = doc.getElementsByClass("sitebit comhead");
+            Elements news = doc.select(".titleline");
 
-//            for (Element element : news) {
-//                String title = element.ownText();
-//
-//                if (!newsService.isExist(title)) {
-//                    News n = new News();
-//                    n.setTitle(title);
-//
-//                    newsService.save(n);
-//                }
-//            }
-            News n = new News();
-            n.setTitle("something");
-            newsService.save(n);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+            for (Element el : news) {
+                String title = el.text();
+
+                if (!newsService.isExist(title)) {
+                    News obj = new News();
+                    obj.setTitle(title);
+                    newsService.save(obj);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
